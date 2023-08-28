@@ -1,63 +1,112 @@
 <!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-<link rel="stylesheet" href="style.css">
-</head>
-<body class="d-flex ">
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary py-0 ">
         <div class="container-fluid bg-dark text-light">
-            <a class="navbar-brand text-light" href="#">Navbar</a>
-            <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon text-light"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav text-light">
-                <li class="nav-item">
-                <a class="nav-link active text-light" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled text-light" aria-disabled="true">Disabled</a>
-            </li>
-            </ul>
+            <a class="navbar-brand text-light" href="backoffice2.html">backoffice</a>   
         </div>
+    </nav>
+
+    <div class="container ">
+        <div class="row col-3 my-5">
+            <div class="card" id="singleProductCard">
+                <!-- <img src="" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <a href="#" class="card-link">edit</a>
+                </div> -->
+              </div>
         </div>
-        </nav> 
-
-        <form  onsubmit="handleSubmit(event)">
-            <input type="text" id="name" placeholder="name" required>
-            <input type="text" id="description" placeholder="description" required>
-            <input type="text" id="brand" placeholder="brand" required>
-            <input type="text" id="imageUrl" placeholder="imageUrl" required>
-            <input type="number" id="price" placeholder="price" required> 
-            <button type="submit">Submit</button>
-            <button type="reset">Reset</button>
-        </form> 
-
-        <ul class="list-group" id="products"> 
-            <ul id="product1">
-                <!-- <li class="list-group-item">An item</li>
-                <li class="list-group-item">A second item</li>
-                <li class="list-group-item">A third item</li>
-                <li class="list-group-item">A fourth item</li>
-                <li class="list-group-item">And a fifth one</li>  
-                <button type="button" class="btn btn-primary">Edit</button> 
-                <button type="button" class="btn btn-primary">Delete</button>   
-            -->
-            </ul> 
-        </ul>
-
-
-    <script src="app.js"></script>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    
+    <script>
+
+const url = "https://striveschool-api.herokuapp.com/api/product/"; 
+const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGVhNGM3NjUxNWY0MTAwMTQ2OTdhMzEiLCJpYXQiOjE2OTMwNzY1OTgsImV4cCI6MTY5NDI4NjE5OH0.aIih90mETdq1JH7CGA35ISTxmFJ7OgtfQRPI9EOYrog";
+
+//const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGVhNGM3NjUxNWY0MTAwMTQ2OTdhMzEiLCJpYXQiOjE2OTMwNzY1OTgsImV4cCI6MTY5NDI4NjE5OH0.aIih90mETdq1JH7CGA35ISTxmFJ7OgtfQRPI9EOYrog"; 
+
+       /*  const productsFetch = async () => {
+
+            try {
+                const div = document.getElementById("singleProductCard"); 
+
+                const resp = await fetch(url) 
+
+                const events = await resp.json()
+                console.log(events);
+
+                events.forEach(event => {
+                    div.innerHTML += `img src="nokia.webp" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                  <a href="#" class="card-link">edit</a>
+                </div>`
+                })
+                
+            } catch (error) {
+                console.log(error);
+            }
+
+        }  */
+
+        
+
+        window.onload = () => { 
+            const div = document.getElementById("singleProductCard"); 
+            fetch(url, {
+        //method: eventId ? "PUT" : "POST", 
+        method: "GET", 
+        headers: {
+            "Content-Type": "application/json", 
+            "Authorization": `Bearer ${authToken}` 
+            //added authorization header to my list of headers 
+            //this will be sent to the server "POST"
+        }
+    }) 
+    .then(response => {
+        if(response.ok){
+            return response.json()
+        }
+    }) 
+    .then(data => { 
+        console.log(data);
+        
+        const productCard = document.createElement("div"); 
+
+        productCard.innerHTML += `<img src="nokia.webp" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title">${data.name}</h5>
+                <p class="card-text">${data.description}</p>
+                <a href="#" class="btn btn-primary">edit product</a>    
+                </div> `; 
+
+        div.appendChild(productCard);  
+
+        /* const singleProduct = document.createElement("div"); 
+        singleProduct.innerHTML += `<img src="${data.imageUrl}" class="card-img-top" alt="...">
+        <h5 class="card-title">Card title</h5>
+        <p class="card-text"></p>
+        <a href="detail.html" class="btn btn-primary">Details</a>` */
+    })
+    .catch(err => console.log(err));
+
+    //console.log(payload);
+} 
+
+
+
+    </script>
 </body>
 </html>
